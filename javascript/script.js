@@ -37,19 +37,19 @@ var jsQuestions = [{
     correctAnswer: "The <body> section"
 }]
 
-function quiz(){
-    clearContent();
+// function quiz(){
+//     clearContent();
     
-    var i = 0;
-    while (i < jsQuestions.length){
-        jsQuestions[i].question = question.textContent;
+//     var i = 0;
+//     while (i < jsQuestions.length){
+//         jsQuestions[i].question = question.textContent;
 
 
-        })
+//         })
 
-    }
+//     }
     
-}
+// }
 
 startButton.addEventListener("click", function () {
     startTimer();
