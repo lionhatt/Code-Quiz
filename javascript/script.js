@@ -1,11 +1,8 @@
 var timer = document.querySelector("#timer");
 var highScoresLink = document.querySelector("#highScores");
 var question = document.querySelector("#question");
-var answers = document.getElementsByClassName("answers")
-var answer1 = document.querySelector("#answer1");
-var answer2 = document.querySelector("#answer2");
-var answer3 = document.querySelector("#answer3");
-var answer4 = document.querySelector("#answer4");
+var answers = document.querySelector("#answers");
+var result = document.querySelector("#result");
 var startButton = document.createElement("button");
 startButton.innerHTML = "Start";
 var userInput = document.createElement("input");
@@ -22,73 +19,53 @@ window.onload = initPage;
 
 
 var jsQuestions = [{
-    question: "Inside which HTML element do we put the JavaScript?",
-    answer1: "<script>",
-    answer2: "<javascript>",
-    answer3: "<js>",
-    answer4: "<scripting>",
+    questionText: "Inside which HTML element do we put the JavaScript?",
+    answersText: ["<script>", "<javascript>", "<js>", "<scripting>"],
     correctAnswer: "<scripting>"
 }, {
-    question: "Where is the correct place to insert a JavaScript?",
-    answer1: "Both the <head> section and the <body> section are correct",
-    answer2: "The <head> section",
-    answer3: "The <body> section",
-    answer4: "the <html> section",
+    questionText: "Where is the correct place to insert a JavaScript?",
+    answersText: ["Both the <head> section and the <body> section are correct", "The <head> section", "The <body> section", "the <html> section"],
     correctAnswer: "The <body> section"
 }]
 
-// function quiz(){
-//     clearContent();
-    
-//     var i = 0;
-//     while (i < jsQuestions.length){
-//         jsQuestions[i].question = question.textContent;
 
-
-//         })
-
-//     }
-    
-// }
 
 startButton.addEventListener("click", function () {
+    var testduration = false;
+    quizStart();
     startTimer();
+
+
 })
 
 //start the count-down timer
 function startTimer() {
-    timeLeft = 2;
-
+    timeLeft = 75;
     var timeInterval = setInterval(function () {
         timer.textContent = "time: " + timeLeft;
         timeLeft--;
-
         if (timeLeft === 0) {
             clearInterval(timeInterval);
             clearContent();
             scoreBoard();
         }
-
-
     }, 1000);
 }
 
 //clear the content of the page
 function clearContent() {
     question.innerHTML = "";
-    answer1.innerHTML = "";
-    answer2.innerHTML = "";
-    answer3.innerHTML = "";
-    answer4.innerHTML = "";
+    answers.innerHTML = "";
+    result.innerHTML = "";
 
 }
 
 function scoreBoard() {
     question.textContent = "All done!";
-    answer1.textContent = "Your final score is " + timeLeft;
-    answer2.textContent = "Your initials "
-    answer2.appendChild(userInput);
-    answer2.appendChild(submitButton);
+    answers.textContent = "Your final score is " + timeLeft;
+    result.textContent = "Your initials "
+    result.appendChild(userInput);
+    result.appendChild(submitButton);
 
 
 
@@ -101,7 +78,7 @@ highScoresLink.addEventListener("click", highScoresPage);
 
 clearButton.addEventListener("click", function () {
     localStorage.clear();
-    answer1.textContent = ""
+    answers.textContent = ""
 
 
 })
@@ -116,8 +93,8 @@ function initPage() {
     highScoresLink.textContent = "View Highscores";
     timer.textContent = "time: 0";
     question.textContent = "Coding Quiz Challenge";
-    answer1.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score timer by ten seconds!";
-    answer2.append(startButton);
+    answers.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score timer by ten seconds!";
+    result.append(startButton);
 }
 
 function highScoresPage() {
@@ -141,10 +118,37 @@ function highScoresPage() {
     var newLastPlayer = JSON.parse(LastPlayer);
 
     question.textContent = "High Scores";
-    answer1.textContent = newLastPlayer.initial + " " + newLastPlayer.score;
-    answer2.appendChild(gobackButton);
-    answer2.appendChild(clearButton);
+    answers.textContent = newLastPlayer.initial + " " + newLastPlayer.score;
+    result.appendChild(gobackButton);
+    result.appendChild(clearButton);
 
 }
 
+function quizStart() {
+    counter = 0;
+    console.log(counter);
+    clearContent();
+    question.textContent = jsQuestions[counter].questionText;
+    for (let i = 0; i < jsQuestions[counter].answersText.length; i++) {
+        const answerButton = document.createElement("button");
+        answerButton.textContent = jsQuestions[counter].answersText[i];
+        answerButton.classList.add("answerButton");
+        answerButton.addEventListener("click", function () {
+            console.log(answerButton.textContent);
+            console.log(jsQuestions[counter].correctAnswer);
+            if (answerButton.textContent === jsQuestions[counter].correctAnswer) {
+                result.textContent = "Correct!";
+            } else {
+                result.textContent = "Incorrect!";
+                timeLeft = timeLeft - 10;
+                console.log(timeLeft);
+            }
+        })
+        answers.appendChild(answerButton);
 
+
+
+    }
+
+
+}
