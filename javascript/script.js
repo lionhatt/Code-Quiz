@@ -45,7 +45,6 @@ var jsQuestions = [{
 
 //start the quiz
 startButton.addEventListener("click", function () {
-    var testduration = false;
     quizStart();
     startTimer();
 })
@@ -56,7 +55,7 @@ function startTimer() {
     var timeInterval = setInterval(function () {
         timer.textContent = "time: " + timeLeft;
         timeLeft--;
-        if (timeLeft === 0 || i === jsQuestions.length) {
+        if (timeLeft <= 0 || i === jsQuestions.length) {
             clearInterval(timeInterval);
             clearContent();
             scoreBoard();
@@ -69,7 +68,6 @@ function clearContent() {
     question.innerHTML = "";
     answers.innerHTML = "";
     result.innerHTML = "";
-
 }
 
 // function to display the score board content on the page 
@@ -79,9 +77,6 @@ function scoreBoard() {
     result.textContent = "Your initials "
     result.appendChild(userInput);
     result.appendChild(submitButton);
-
-
-
 }
 
 submitButton.addEventListener("click", highScoresPage);
@@ -92,8 +87,6 @@ highScoresLink.addEventListener("click", highScoresPage);
 clearButton.addEventListener("click", function () {
     localStorage.clear();
     answers.textContent = ""
-
-
 })
 
 gobackButton.addEventListener("click", function () {
@@ -151,20 +144,15 @@ function quizStart() {
 
         answers.appendChild(answerButton);
         answerButton.addEventListener("click", function () {
-            console.log(answerButton.textContent);
-            console.log(jsQuestions[i].correctAnswer);
             if (answerButton.textContent === jsQuestions[i].correctAnswer) {
-                result.textContent = "Correct!";
-                
+                result.textContent = "Correct!";  
             } else {
                 result.textContent = "Incorrect!";
                 timeLeft = timeLeft - 10;
-                console.log(timeLeft);
-
             }
             setTimeout(function () {
                 i++;
-                return quizStart();
+                quizStart();
             },1000)
         })
     }
